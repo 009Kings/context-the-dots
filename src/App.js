@@ -1,26 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
+import { ColorContext, colors } from './ColorContext';
+import Panel from './Panel';
+import ColorButton from './ColorButton';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
+class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      color: colors[0],
+      changeColor: this.changeColor // wait, whattttt?! methods in state?! you better believe it
+    }
+  }
+
+  changeColor = () => {
+    this.setState({ color: colors[(Math.floor(Math.random() * colors.length))]})
+  }
+
+  render() {
+    return(
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <ColorContext.Provider value={this.state}>
+          <Panel />
+          <ColorButton />
+        </ColorContext.Provider>
       </header>
-    </div>
-  );
+    )
+  }
 }
 
 export default App;
